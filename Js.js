@@ -1,6 +1,6 @@
 let appState = {
     employees: [],
-    statuses: []  // Start with an empty array
+    statuses: []
 };
 
 function init() {
@@ -9,16 +9,6 @@ function init() {
     setupColorPickers();
     document.getElementById('addEmployeeBtn').addEventListener('click', addEmployee);
     document.getElementById('addStatusBtn').addEventListener('click', addStatus);
-
-    // Setup click event listener for the loadButton
-    document.getElementById('loadButton').addEventListener('click', clickToLoad);
-}
-
-// Define clickToLoad function
-function clickToLoad(event) {
-    // Implement your logic here to handle the click event
-    console.log('Element clicked! Implement your logic here.');
-    // Example: Load content or trigger an action
 }
 
 function setupColorPickers() {
