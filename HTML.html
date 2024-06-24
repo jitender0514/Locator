@@ -35,7 +35,6 @@
             </section>
         </main>
     </div>
-
     <div id="confirmationModal" class="modal">
         <div class="modal-content">
             <p id="modalMessage"></p>
@@ -45,7 +44,6 @@
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
     <script>
         // JavaScript for sharing admin URL
@@ -54,12 +52,10 @@
             copyToClipboard(adminUrl);
             alert('Admin URL copied to clipboard!');
         }
-
         function generateAdminUrl() {
             const timestamp = Date.now();
             return `http://example.com/admin?timestamp=${timestamp}`;
         }
-
         function copyToClipboard(text) {
             const dummyElement = document.createElement('textarea');
             dummyElement.value = text;
@@ -71,16 +67,19 @@
             document.execCommand('copy');
             document.body.removeChild(dummyElement);
         }
-
         // Wait for the DOM to be fully loaded before attaching event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded');
             const shareUrlBtn = document.getElementById('shareUrlBtn');
             if (shareUrlBtn) {
                 shareUrlBtn.addEventListener('click', shareAdminUrl);
+                console.log('Share URL button listener added');
+            } else {
+                console.error('Share URL button not found');
             }
-
             // Call the init function from script.js if it exists
             if (typeof window.initEmployeeLocator === 'function') {
+                console.log('Calling initEmployeeLocator');
                 window.initEmployeeLocator();
             } else {
                 console.error('initEmployeeLocator function not found. Make sure script.js is loaded correctly.');
