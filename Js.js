@@ -1,44 +1,55 @@
-console.log("Script file started loading");
-
-window.onerror = function(message, source, lineno, colno, error) {
-    console.error("Caught error:", message, "at", source, ":", lineno, ":", colno);
-    console.error("Error object:", error);
-    return true;
-};
-console.log("Script file loaded");
-
+// Immediately invoked function expression (IIFE) to avoid polluting the global scope
 (function() {
+    console.log("Script starting execution");
+
+    // Global error handler
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.error("Caught error:", message, "at", source, ":", lineno, ":", colno);
+        console.error("Error object:", error);
+        return true;
+    };
+
+    // Application state
     let appState = {
         employees: [],
         statuses: []
     };
 
+    // Main initialization function
     function init() {
         console.log("Init function called");
-        updateStatusList();
-        renderEmployees();
-        setupColorPickers();
-        setupEventListeners();
-        console.log("Initialization complete");
+        try {
+            updateStatusList();
+            renderEmployees();
+            setupColorPickers();
+            setupEventListeners();
+            console.log("Initialization complete");
+        } catch (error) {
+            console.error("Error during initialization:", error);
+        }
     }
 
+    // Set up event listeners for buttons
     function setupEventListeners() {
         const addEmployeeBtn = document.getElementById('addEmployeeBtn');
         const addStatusBtn = document.getElementById('addStatusBtn');
         
         if (addEmployeeBtn) {
             addEmployeeBtn.addEventListener('click', addEmployee);
+            console.log("Add Employee button listener set");
         } else {
             console.error("Add Employee button not found");
         }
         
         if (addStatusBtn) {
             addStatusBtn.addEventListener('click', addStatus);
+            console.log("Add Status button listener set");
         } else {
             console.error("Add Status button not found");
         }
     }
 
+    // Set up color pickers for status indicators
     function setupColorPickers() {
         const statusIndicators = document.querySelectorAll('.status-indicator');
         statusIndicators.forEach((indicator, index) => {
@@ -47,8 +58,10 @@ console.log("Script file loaded");
                 editStatusColor(index);
             });
         });
+        console.log("Color pickers set up");
     }
 
+    // Add a new employee
     function addEmployee() {
         const nameInput = document.getElementById('newEmployeeName');
         if (!nameInput) {
@@ -67,11 +80,13 @@ console.log("Script file loaded");
             if (lastEmployee) {
                 animateNewItem(lastEmployee);
             }
+            console.log("New employee added:", name);
         } else {
             showError(nameInput, 'Please enter a valid employee name');
         }
     }
 
+    // Add a new status
     function addStatus() {
         const nameInput = document.getElementById('newStatusName');
         const colorInput = document.getElementById('newStatusColor');
@@ -90,16 +105,20 @@ console.log("Script file loaded");
             if (lastStatus) {
                 animateNewItem(lastStatus);
             }
+            console.log("New status added:", name, color);
         } else {
             if (!name) showError(nameInput, 'Please enter a valid status name');
         }
     }
 
+    // Update an employee's status
     function updateEmployeeStatus(index, newStatus) {
         appState.employees[index].status = newStatus;
         renderEmployees();
+        console.log("Employee status updated:", appState.employees[index].name, newStatus);
     }
 
+    // Render the list of employees
     function renderEmployees() {
         const employeeList = document.getElementById('employeeList');
         if (!employeeList) {
@@ -111,8 +130,10 @@ console.log("Script file loaded");
             const employeeItem = createEmployeeElement(employee, index);
             employeeList.appendChild(employeeItem);
         });
+        console.log("Employees rendered, count:", appState.employees.length);
     }
 
+    // Create an individual employee element
     function createEmployeeElement(employee, index) {
         const employeeItem = document.createElement('div');
         employeeItem.className = 'employee-item';
@@ -145,21 +166,27 @@ console.log("Script file loaded");
         return employeeItem;
     }
 
+    // Edit an employee's name
     function editEmployee(index) {
         const newName = prompt('Enter new name for employee:', appState.employees[index].name);
         if (newName !== null && newName.trim() !== '') {
             appState.employees[index].name = newName.trim();
             renderEmployees();
+            console.log("Employee name edited:", newName);
         }
     }
 
+    // Delete an employee
     function deleteEmployee(index) {
         if (confirm(`Are you sure you want to delete ${appState.employees[index].name}?`)) {
+            const deletedName = appState.employees[index].name;
             appState.employees.splice(index, 1);
             renderEmployees();
+            console.log("Employee deleted:", deletedName);
         }
     }
 
+    // Update the list of statuses
     function updateStatusList() {
         const statusList = document.getElementById('statusList');
         if (!statusList) {
@@ -171,8 +198,10 @@ console.log("Script file loaded");
             const statusItem = createStatusElement(status, index);
             statusList.appendChild(statusItem);
         });
+        console.log("Status list updated, count:", appState.statuses.length);
     }
 
+    // Create an individual status element
     function createStatusElement(status, index) {
         const statusItem = document.createElement('div');
         statusItem.className = 'status-item';
@@ -194,15 +223,18 @@ console.log("Script file loaded");
         return statusItem;
     }
 
+    // Edit a status name
     function editStatus(index) {
         const newName = prompt('Enter new name for status:', appState.statuses[index].name);
         if (newName !== null && newName.trim() !== '') {
             appState.statuses[index].name = newName.trim();
             updateStatusList();
             renderEmployees();
+            console.log("Status name edited:", newName);
         }
     }
 
+    // Edit a status color
     function editStatusColor(index) {
         const colorPicker = document.createElement('input');
         colorPicker.type = 'color';
@@ -216,20 +248,25 @@ console.log("Script file loaded");
 
         colorPicker.addEventListener('change', function() {
             document.body.removeChild(colorPicker);
+            console.log("Status color updated:", appState.statuses[index].name, this.value);
         });
 
         document.body.appendChild(colorPicker);
         colorPicker.click();
     }
 
+    // Delete a status
     function deleteStatus(index) {
         if (confirm(`Are you sure you want to delete ${appState.statuses[index].name}?`)) {
+            const deletedName = appState.statuses[index].name;
             appState.statuses.splice(index, 1);
             updateStatusList();
             renderEmployees();
+            console.log("Status deleted:", deletedName);
         }
     }
 
+    // Animate a newly added item
     function animateNewItem(element) {
         element.classList.add('fade-in');
         setTimeout(() => {
@@ -237,15 +274,19 @@ console.log("Script file loaded");
         }, 500);
     }
 
+    // Show an error message
     function showError(input, message) {
         alert(message);
         input.focus();
+        console.error("Error shown:", message);
     }
 
     // Check if the DOM is already loaded
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
+        console.log("DOMContentLoaded event listener added");
     } else {
+        console.log("DOM already loaded, calling init directly");
         init();
     }
 
@@ -253,6 +294,4 @@ console.log("Script file loaded");
     window.initEmployeeLocator = init;
 })();
 
-console.log("Script file fully parsed");
-console.log("Script file finished loading");
-
+console.log("Script fully parsed and IIFE executed");
