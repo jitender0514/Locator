@@ -1,3 +1,10 @@
+console.log("Script file started loading");
+
+window.onerror = function(message, source, lineno, colno, error) {
+    console.error("Caught error:", message, "at", source, ":", lineno, ":", colno);
+    console.error("Error object:", error);
+    return true;
+};
 console.log("Script file loaded");
 
 (function() {
@@ -247,3 +254,5 @@ console.log("Script file loaded");
 })();
 
 console.log("Script file fully parsed");
+console.log("Script file finished loading");
+
