@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,9 +6,6 @@
     <title>Employee Locator</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Include any additional styles here if needed */
-    </style>
 </head>
 <body>
     <div class="app-container">
@@ -48,16 +46,16 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
         // JavaScript for sharing admin URL
         function shareAdminUrl() {
-            const adminUrl = generateAdminUrl(); // Replace with actual function to generate unique URL
+            const adminUrl = generateAdminUrl();
             copyToClipboard(adminUrl);
-            alert('Copied!');
+            alert('Admin URL copied to clipboard!');
         }
 
         function generateAdminUrl() {
-            // Logic to generate a unique URL each time
             const timestamp = Date.now();
             return `http://example.com/admin?timestamp=${timestamp}`;
         }
@@ -74,11 +72,20 @@
             document.body.removeChild(dummyElement);
         }
 
+        // Wait for the DOM to be fully loaded before attaching event listeners
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('shareUrlBtn').addEventListener('click', shareAdminUrl);
+            const shareUrlBtn = document.getElementById('shareUrlBtn');
+            if (shareUrlBtn) {
+                shareUrlBtn.addEventListener('click', shareAdminUrl);
+            }
+
+            // Call the init function from script.js if it exists
+            if (typeof window.initEmployeeLocator === 'function') {
+                window.initEmployeeLocator();
+            } else {
+                console.error('initEmployeeLocator function not found. Make sure script.js is loaded correctly.');
+            }
         });
     </script>
-
-    <script src="script.js"></script>
 </body>
 </html>
