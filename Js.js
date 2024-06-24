@@ -1,3 +1,10 @@
+console.log("Script file loaded");
+
+// Rest of your script follows...
+(function() {
+    // ... (rest of the code remains the same)
+})();
+
 // Wrap everything in an immediately invoked function expression (IIFE) to avoid global scope pollution
 (function() {
     let appState = {
@@ -245,3 +252,5 @@
     // Expose init function to global scope for debugging
     window.initEmployeeLocator = init;
 })();
+
+console.log("Script file fully parsed");
