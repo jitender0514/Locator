@@ -1,7 +1,7 @@
+console.log("Script starting execution");
+
 // Immediately invoked function expression (IIFE) to avoid polluting the global scope
 (function() {
-    console.log("Script starting execution");
-
     // Global error handler
     window.onerror = function(message, source, lineno, colno, error) {
         console.error("Caught error:", message, "at", source, ":", lineno, ":", colno);
@@ -19,10 +19,10 @@
     function init() {
         console.log("Init function called");
         try {
+            setupEventListeners();
             updateStatusList();
             renderEmployees();
             setupColorPickers();
-            setupEventListeners();
             console.log("Initialization complete");
         } catch (error) {
             console.error("Error during initialization:", error);
@@ -281,17 +281,10 @@
         console.error("Error shown:", message);
     }
 
-    // Check if the DOM is already loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-        console.log("DOMContentLoaded event listener added");
-    } else {
-        console.log("DOM already loaded, calling init directly");
-        init();
-    }
-
     // Expose init function to global scope for debugging
     window.initEmployeeLocator = init;
+
+    console.log("Script setup complete, waiting for DOM");
 })();
 
 console.log("Script fully parsed and IIFE executed");
