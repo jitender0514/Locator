@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Locator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Include any additional styles here if needed */
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Employee Locator</h1>
+            <button id="shareUrlBtn" class="admin-only">Share URL</button>
+        </header>
+        
+        <main>
+            <section class="employee-section admin-view">
+                <h2>Employees</h2>
+                <div class="employee-list" id="employeeList"></div>
+                <div class="add-employee admin-only">
+                    <input type="text" id="newEmployeeName" placeholder="Enter employee name">
+                    <button id="addEmployeeBtn">Add Employee</button>
+                </div>
+            </section>
+            
+            <section class="status-section admin-view">
+                <h2>Manage Status</h2>
+                <div class="status-list" id="statusList"></div>
+                <div class="add-status">
+                    <input type="text" id="newStatusName" placeholder="Enter status name">
+                    <input type="color" id="newStatusColor" value="#3498db" title="Choose status color">
+                    <button id="addStatusBtn">Add Status</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <div class="modal-actions">
+                <button id="modalConfirm">Confirm</button>
+                <button id="modalCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for sharing admin URL
+        function shareAdminUrl() {
+            const adminUrl = generateAdminUrl(); // Replace with actual function to generate unique URL
+            copyToClipboard(adminUrl);
+            alert('Copied!');
+        }
+
+        function generateAdminUrl() {
+            // Logic to generate a unique URL each time
+            const timestamp = Date.now();
+            return `http://example.com/admin?timestamp=${timestamp}`;
+        }
+
+        function copyToClipboard(text) {
+            const dummyElement = document.createElement('textarea');
+            dummyElement.value = text;
+            dummyElement.setAttribute('readonly', '');
+            dummyElement.style.position = 'absolute';
+            dummyElement.style.left = '-9999px';
+            document.body.appendChild(dummyElement);
+            dummyElement.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummyElement);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('shareUrlBtn').addEventListener('click', shareAdminUrl);
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
