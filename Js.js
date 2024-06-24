@@ -1,18 +1,11 @@
 console.log("Script file loaded");
 
-// Rest of your script follows...
-(function() {
-    // ... (rest of the code remains the same)
-})();
-
-// Wrap everything in an immediately invoked function expression (IIFE) to avoid global scope pollution
 (function() {
     let appState = {
         employees: [],
         statuses: []
     };
 
-    // Main initialization function
     function init() {
         console.log("Init function called");
         updateStatusList();
